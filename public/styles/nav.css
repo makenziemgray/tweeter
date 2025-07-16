@@ -1,34 +1,37 @@
-/* Entire navbar */
+/* Navigation bar */
 nav {
+  position: fixed;      
+  top: 0;               
+  left: 0;
+  width: 100%;           
   height: 120px;
-  width: 100%;
   background-color: #4056A1;
   color: #FFFFFF;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 1.5em; /* 1.5em space on left & right */
-  box-sizing: border-box; /* include padding in height */
-  font-family: sans-serif; /* default font */
+  align-items: center;
+  padding: 0 1.5em;
+  z-index: 10;           
+  box-sizing: border-box;
 }
 
-/* Left side title */
+/* Tweeter brand title */
 nav span {
   font-family: 'Bungee', sans-serif;
   font-size: 2em;
 }
 
-/* Right side: Write a new tweet + arrow */
+/* Write a new tweet + arrow */
 .new-tweet {
   text-align: center;
   font-size: 0.9em;
   line-height: 1.2em;
 }
 
-/* Red arrow icon, moved up slightly */
+/* Icon with proper red color */
 .new-tweet i {
-  color: red;
+  color: #eb0a0a; /* Specific red as per suggestion */
   display: block;
-  margin-top: -4px; /* moves arrow closer to text */
+  margin-top: 4px; /* Reset to a mild spacing rather than negative */
   font-size: 1em;
 }
