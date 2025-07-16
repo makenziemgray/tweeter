@@ -5,7 +5,7 @@ nav {
   left: 0;
   width: 100%;           
   height: 120px;
-  background-color: #4056A1;
+  background-color: black;
   color: #FFFFFF;
   display: flex;
   justify-content: space-between;
@@ -29,9 +29,10 @@ nav span {
 }
 
 /* Icon with proper red color */
-.new-tweet i {
-  color: #eb0a0a; /* Specific red as per suggestion */
+.new-tweet-button i {
+  color: #f79aaf;      
   display: block;
-  margin-top: 4px; /* Reset to a mild spacing rather than negative */
+  margin-top: 4px;
   font-size: 1em;
+  text-align: center;
 }
