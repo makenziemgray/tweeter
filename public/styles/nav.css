@@ -1,0 +1,34 @@
+/* Entire navbar */
+nav {
+  height: 120px;
+  width: 100%;
+  background-color: #4056A1;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5em; /* 1.5em space on left & right */
+  box-sizing: border-box; /* include padding in height */
+  font-family: sans-serif; /* default font */
+}
+
+/* Left side title */
+nav span {
+  font-family: 'Bungee', sans-serif;
+  font-size: 2em;
+}
+
+/* Right side: Write a new tweet + arrow */
+.new-tweet {
+  text-align: center;
+  font-size: 0.9em;
+  line-height: 1.2em;
+}
+
+/* Red arrow icon, moved up slightly */
+.new-tweet i {
+  color: red;
+  display: block;
+  margin-top: -4px; /* moves arrow closer to text */
+  font-size: 1em;
+}
