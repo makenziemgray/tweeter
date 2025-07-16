@@ -1,6 +1,6 @@
 header {
   width: 100%;
-  height: 300px; /* Give it height so centering works */
+  height: 400px; /* Give it height so centering works */
   display: flex;
   flex-direction: column;
   justify-content: center;  /* Vertical centering */
@@ -20,6 +20,7 @@ header img {
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
+  margin-bottom: 1em;
 }
 
 /* Name */
