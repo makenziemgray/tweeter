@@ -1,13 +1,15 @@
 "use strict";
 
+// Safely escape tweet text to prevent XSS
 const escape = function (str) {
   const div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
 };
 
+// Create tweet <article> element
 const createTweetElement = function (tweet) {
-  const $tweet = $(`
+  return $(`
     <article class="tweet" style="display: none;">
       <header class="th-header">
         <div class="name-left">
@@ -29,18 +31,19 @@ const createTweetElement = function (tweet) {
       </footer>
     </article>
   `);
-  return $tweet;
 };
 
+// Loop through tweets and add them to DOM
 const renderTweets = function (tweets) {
   const $container = $('#tweets-container');
-  $container.empty();
+  $container.empty(); // Clear existing tweets
   for (const tweet of tweets) {
-    const $tweetElement = createTweetElement(tweet);
-    $tweetElement.prependTo($container).slideDown(300);
+    const $tweet = createTweetElement(tweet);
+    $tweet.prependTo($container).slideDown(300);
   }
 };
 
+// AJAX call to fetch tweets
 const loadTweets = () => {
   $.ajax({
     url: '/api/tweets',
@@ -51,17 +54,24 @@ const loadTweets = () => {
   });
 };
 
+// Display error message
 const showError = (message) => {
-  const $box = $('.error-message');
-  $box.stop(true, true).hide().text(`⚠️ ${message}`).slideDown();
+  $('.error-message')
+    .stop(true, true)
+    .hide()
+    .text(`⚠️ ${message}`)
+    .slideDown();
 };
 
+// Hide any visible error
 const hideError = () => $('.error-message').slideUp();
 
+// Reset tweet character counter
 const resetCounter = () => {
   $('.counter').text(140).removeClass('warning');
 };
 
+// Validate tweet content
 const isTweetValid = (text) => {
   if (!text || !text.trim()) {
     showError("Tweet content is required.");
@@ -74,67 +84,72 @@ const isTweetValid = (text) => {
   return true;
 };
 
+// Handle tweet form toggle from nav
+const handleNavToggleClick = () => {
+  const $form = $('.new-tweet');
+  if ($form.is(':visible')) {
+    $form.slideUp(() => $form.addClass('hidden'));
+  } else {
+    $form.removeClass('hidden').hide().slideDown('fast', () => {
+      $('#tweet-text').focus();
+    });
+  }
+};
+
+// Handle tweet form submission
+const handleTweetSubmit = function (e) {
+  e.preventDefault();
+  hideError();
+
+  const tweetText = $('#tweet-text').val();
+  if (!isTweetValid(tweetText)) return;
+
+  const serializedData = $(this).serialize();
+
+  $.post('/api/tweets', serializedData)
+    .then(() => {
+      loadTweets();
+      this.reset();
+      resetCounter();
+      $('#tweet-text').blur();
+    })
+    .catch(() => {
+      showError("Something went wrong while submitting your tweet.");
+    });
+};
+
+// Toggle button visibility based on scroll position
+const handleScroll = () => {
+  if ($(window).scrollTop() > 150) {
+    $('.scroll-top-button').removeClass('hidden');
+    $('.new-tweet-button').addClass('hidden');
+  } else {
+    $('.scroll-top-button').addClass('hidden');
+    $('.new-tweet-button').removeClass('hidden');
+  }
+};
+
+// Handle scroll-top button click
+const handleScrollTopClick = () => {
+  $('html, body').animate({ scrollTop: 0 }, 300, () => {
+    const $form = $('.new-tweet');
+    if ($form.hasClass('hidden')) {
+      $form.hide().removeClass('hidden').slideDown('fast', () => {
+        $('#tweet-text').focus();
+      });
+    } else {
+      $('#tweet-text').focus();
+    }
+  });
+};
+
+// DOM Ready
 $(document).ready(function () {
   loadTweets();
 
-  // Toggle new tweet form from nav
-  $('.new-tweet-button').on('click', function () {
-    const $form = $('.new-tweet');
-
-    if ($form.is(':visible')) {
-      $form.slideUp(() => {
-        $form.addClass('hidden');
-      });
-    } else {
-      $form.removeClass('hidden').hide().slideDown('fast', () => {
-        $('#tweet-text').focus();
-      });
-    }
-  });
-
-  // Submit new tweet
-  $('#submit-tweet').on('submit', function (e) {
-    e.preventDefault();
-    hideError();
-
-    const tweetText = $('#tweet-text').val();
-    if (!isTweetValid(tweetText)) return;
-
-    const serializedData = $(this).serialize();
-
-    $.post('/api/tweets', serializedData)
-      .then(() => {
-        loadTweets();
-        this.reset();
-        resetCounter();
-        $('#tweet-text').blur();
-      })
-      .catch((err) => {
-        console.error('Tweet submission failed:', err);
-        showError("Something went wrong while submitting your tweet.");
-      });
-  });
-
-  // ✅ Scroll-based behavior
-  $(window).on('scroll', function () {
-    if ($(this).scrollTop() > 150) {
-      $('.scroll-top-button').removeClass('hidden');
-      $('.new-tweet-button').addClass('hidden');
-    } else {
-      $('.scroll-top-button').addClass('hidden');
-      $('.new-tweet-button').removeClass('hidden');
-    }
-  });
-
-  // ✅ Scroll-top button behavior
-  $('.scroll-top-button').on('click', function () {
-    $('html, body').animate({ scrollTop: 0 }, 300, () => {
-      const $form = $('.new-tweet');
-      if ($form.hasClass('hidden')) {
-        $form.hide().removeClass('hidden').slideDown('fast', () => $('#tweet-text').focus());
-      } else {
-        $('#tweet-text').focus();
-      }
-    });
-  });
+  // Event Listeners
+  $('.new-tweet-button').on('click', handleNavToggleClick);
+  $('#submit-tweet').on('submit', handleTweetSubmit);
+  $(window).on('scroll', handleScroll);
+  $('.scroll-top-button').on('click', handleScrollTopClick);
 });

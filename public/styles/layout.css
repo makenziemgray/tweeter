@@ -32,3 +32,49 @@ body {
   margin: 0 auto;                
   background-color: inherit;   
 }
+
+/* === DESKTOP BREAKPOINT === */
+@media screen and (min-width: 1024px) {
+  .container {
+    max-width: 1100px;
+    margin: 140px auto 60px auto;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+  }
+
+  /* Show header/profile left side */
+  header {
+    width: 30%;
+    height: fit-content;
+    align-self: flex-start;
+    margin: 0;
+  }
+
+  /* Move tweet form + tweets to right side */
+  .new-tweet,
+  .tweet-container {
+    width: 70%;
+  }
+
+  .new-tweet {
+    margin-top: 0;
+  }
+
+  .tweet-container {
+    margin-top: 20px;
+  }
+
+  /* Nav bar stays at top full width */
+  nav {
+    width: 100%;
+  }
+
+  /* Scroll button still bottom right */
+  .scroll-top-button {
+    bottom: 60px;
+    right: 60px;
+  }
+}
+
+
