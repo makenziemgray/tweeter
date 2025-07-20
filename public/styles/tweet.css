@@ -1,25 +1,17 @@
-/* Container for the tweet */
 .tweet {
-  background-color: #fbc5d8; /* Light pink */
+  background-color: #fbc5d8;
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  font-family: 'Source Sans 3', sans-serif;
   word-wrap: break-word;
-  transition: transform 0.2s;
+  font-family: 'Source Sans 3', sans-serif;
 }
 
-.tweet:hover {
-  transform: translateY(-2px);
-}
-
-/* Tweet header: avatar, name, and handle */
 .th-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
 }
 
 .name-left {
@@ -32,58 +24,59 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px solid #e91e63;
-}
-
-.name-left h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
 }
 
 .handle {
   margin-left: auto;
+  font-weight: bold;
   color: #555;
-  font-weight: 700;
-  font-size: 0.9rem;
 }
 
-/* Tweet content */
 .display-tweet {
   margin: 0.5rem 0;
-  padding: 0.25rem 0;
 }
 
-.display-tweet p {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #333;
-  line-height: 1.5;
-}
-
-/* Tweet footer: timestamp + icons */
 .tweet footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid #e0bfcf;
-  padding-top: 0.5rem;
   font-size: 0.85rem;
   color: #666;
+  border-top: 1px solid #e0bfcf;
+  padding-top: 0.5rem;
 }
 
-.tweet footer .icons {
-  display: flex;
-  gap: 1rem;
-  font-size: 1rem;
-}
-
-.tweet footer i {
+.icons i {
+  margin-left: 10px;
   cursor: pointer;
-  color: #888;
   transition: color 0.2s;
 }
 
-.tweet footer i:hover {
-  color: #e91e63; /* pink hover */
+.icons i:hover {
+  color: #e91e63;
+}
+
+@media screen and (max-width: 600px) {
+  .tweet {
+    padding: 0.75rem;
+  }
+
+  .name-left img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .display-tweet p {
+    font-size: 1rem;
+  }
+}
+
+.error {
+  color: white;
+  background-color: #e53935;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  display: none;
 }

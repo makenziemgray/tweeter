@@ -1,22 +1,22 @@
 "use strict";
 
-// Scroll to top and focus on tweet input when clicking the down arrow
+// Scroll to top and focus on tweet input
 $('.scroll').click(() => {
   $('html, body').animate({ scrollTop: 0 }, 500);
   $('#tweet-text').focus();
 });
 
-// Escape function to sanitize user input (XSS protection)
+// Escape user input to prevent XSS
 const escape = function (str) {
   const div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
 };
 
-// Builds and returns a tweet <article> element from a tweet object
+// Create a single tweet <article> from a tweet object
 const createTweetElement = function(tweet) {
   const $tweet = $(`
-    <article class="tweet">
+    <article class="tweet" style="display: none;">
       <header class="th-header">
         <div class="name-left">
           <img src="${tweet.user.avatars}" alt="User Avatar">
@@ -40,87 +40,81 @@ const createTweetElement = function(tweet) {
   return $tweet;
 };
 
-// Renders an array of tweets in the #tweets-container
+// Render multiple tweets into the #tweets-container
 const renderTweets = function(tweets) {
   const $container = $('#tweets-container');
-  $container.empty(); // Clear existing tweets
+  $container.empty();
   for (const tweet of tweets) {
     const $tweetElement = createTweetElement(tweet);
-    $container.prepend($tweetElement); // Prepend newest first
+    $tweetElement.prependTo($container).slideDown(300);
   }
 };
 
-// Loads tweets via GET /api/tweets and renders them
+// Load tweets from server and render them
 const loadTweets = () => {
   $.ajax({
-    url: '/api/tweets', // ✅ Correct route for GET
+    url: '/api/tweets',
     method: 'GET',
     dataType: 'json',
     success: (tweets) => {
       renderTweets(tweets);
     },
     error: (error) => {
-      console.error('Failed to load tweets:', error);
+      console.error('Error fetching tweets:', error);
     }
   });
 };
 
-// Adds an error message to the top of the form
+// Show animated error message
 const appendError = (message) => {
-  $('#submit-tweet').prepend(
-    $("<span class='error'>")
-      .text('⚠️ ' + message + ' ⚠️')
-      .slideDown()
-      .delay(3500)
-      .hide(500)
-  );
+  const $error = $("<div class='error'>")
+    .text(`⚠️ ${message} ⚠️`)
+    .hide()
+    .prependTo('#submit-tweet')
+    .slideDown()
+    .delay(3000)
+    .fadeOut(500, function () {
+      $(this).remove();
+    });
 };
 
-// Removes previous error message
-const removeError = () => {
-  $('.error').remove();
-};
-
-// Resets character counter back to 140
+// Reset tweet character counter
 const resetCounter = () => {
-  $('.counter').text(140);
+  $('.counter').text(140).removeClass('warning');
 };
 
-// jQuery DOM Ready
+// Main logic
 $(document).ready(function () {
-  // Load tweets on page load
+  // Load existing tweets on page load
   loadTweets();
 
-  // Form submission handler
+  // Handle new tweet submission
   $('#submit-tweet').on('submit', function (e) {
     e.preventDefault();
 
-    const tweetText = $('#tweet-text').val();
+    const tweetText = $('#tweet-text').val().trim();
     const serializedData = $(this).serialize();
 
-    removeError();
-
-    // Validate tweet content
-    if (!tweetText.trim()) {
-      appendError('You cannot post a blank tweet');
+    if (!tweetText) {
+      appendError("You cannot post a blank tweet");
       return;
     }
 
     if (tweetText.length > 140) {
-      appendError('Your tweet is too long!');
+      appendError("Your tweet is too long!");
       return;
     }
 
-    // ✅ POST to correct backend route
     $.post('/api/tweets', serializedData)
       .then(() => {
-        loadTweets();        // Reload tweets after posting
-        this.reset();        // Clear the form
-        resetCounter();      // Reset the char counter
+        loadTweets();        // Reload tweets
+        this.reset();        // Clear form
+        resetCounter();      // Reset char count
+        $('html, body').animate({ scrollTop: 0 }, 300); // Scroll to top
       })
       .catch((err) => {
         console.error('Tweet submission failed:', err);
-        appendError('Something went wrong. Try again.');
+        appendError("Something went wrong.");
       });
   });
 });
