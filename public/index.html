@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Tweeter - Home Page</title>
 
-    <!-- Font Awesome -->
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Normalize and Fonts -->
@@ -31,35 +31,29 @@
   </head>
 
   <body>
-    <!-- Top Navigation Bar -->
+    <!-- Top nav -->
     <nav>
       <span>TWEETER</span>
-      <div class="new-tweet-button">
-        <p>Write a new tweet</p>
-        <i class="fa-solid fa-angles-down"></i>
+      <div class="nav-right">
+        <button class="compose-button">
+          <i class="fa-solid fa-angles-down"></i> Compose
+        </button>
       </div>
     </nav>
 
-    <!-- Header Avatar -->
+    <!-- Header -->
     <header>
       <img src="/images/profile-hex.png" alt="avatar">
       <h2>BLɅƆKPIИK</h2>
     </header>
 
-    <!-- Main Content -->
     <main class="container">
-      
-      <!-- Compose New Tweet Section -->
-      <section class="new-tweet">
+      <section class="new-tweet" style="display: none;">
         <h2>Compose Tweet</h2>
-        <form id="submit-tweet" action="/tweets" method="POST">
-
-          <!-- ✅ Error message box -->
+        <form id="submit-tweet">
           <div class="error-message" style="display: none;"></div>
-
           <label for="tweet-text">What are you humming about?</label>
           <textarea name="text" id="tweet-text" placeholder="Write your tweet here..." maxlength="140"></textarea>
-
           <div class="tweet-form-footer">
             <button type="submit">Tweet</button>
             <output class="counter" for="tweet-text">140</output>
@@ -67,9 +61,7 @@
         </form>
       </section>
 
-      <!-- Tweets will be rendered here -->
       <section class="tweet-container" id="tweets-container"></section>
-
     </main>
   </body>
 </html>

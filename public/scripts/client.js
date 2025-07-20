@@ -1,6 +1,6 @@
 "use strict";
 
-// Scroll to top and focus tweet input
+// Scroll-to-top helper (optional if you want arrow behavior)
 $('.scroll').click(() => {
   $('html, body').animate({ scrollTop: 0 }, 500);
   $('#tweet-text').focus();
@@ -13,7 +13,7 @@ const escape = function (str) {
   return div.innerHTML;
 };
 
-// Build tweet <article> element
+// Create tweet element
 const createTweetElement = function(tweet) {
   const $tweet = $(`
     <article class="tweet" style="display: none;">
@@ -50,58 +50,64 @@ const renderTweets = function(tweets) {
   }
 };
 
-// Load tweets from server
+// Load all tweets
 const loadTweets = () => {
   $.ajax({
     url: '/api/tweets',
     method: 'GET',
     dataType: 'json',
     success: renderTweets,
-    error: () => showError("Failed to fetch tweets. Please try again.")
+    error: () => showError("Failed to fetch tweets.")
   });
 };
 
-// Show animated error message
+// Show error
 const showError = (message) => {
   const $box = $('.error-message');
-  $box.stop(true, true).hide(); // Reset animations
-  $box.text(`⚠️ ${message}`);
-  $box.slideDown();
+  $box.stop(true, true).hide().text(`⚠️ ${message}`).slideDown();
 };
 
 // Hide error
-const hideError = () => {
-  $('.error-message').slideUp();
-};
+const hideError = () => $('.error-message').slideUp();
 
-// Reset char counter
+// Reset character counter
 const resetCounter = () => {
   $('.counter').text(140).removeClass('warning');
 };
 
-// Validate tweet input
+// Validation logic
 const isTweetValid = (text) => {
   if (!text || !text.trim()) {
     showError("Tweet content is required.");
     return false;
   }
-
   if (text.length > 140) {
     showError("Tweet exceeds 140 character limit.");
     return false;
   }
-
   return true;
 };
 
-// DOM Ready
 $(document).ready(function () {
   loadTweets();
 
+  // ✅ Toggle tweet form on Compose click
+  $('.compose-button').on('click', function () {
+    const $form = $('.new-tweet');
+    if ($form.is(':visible')) {
+      $form.slideUp();
+    } else {
+      $form.slideDown('fast', () => {
+        $('#tweet-text').focus();
+      });
+    }
+  });
+
+  // ✅ Handle tweet submit
   $('#submit-tweet').on('submit', function (e) {
     e.preventDefault();
 
-    hideError(); // ✅ Hide old error first
+    hideError();
 
     const tweetText = $('#tweet-text').val();
     if (!isTweetValid(tweetText)) return;

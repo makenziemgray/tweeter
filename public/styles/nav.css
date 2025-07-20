@@ -36,3 +36,26 @@ nav span {
   font-size: 1em;
   text-align: center;
 }
+
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.compose-button {
+  background-color: #ffffff;
+  color: #4056a1;
+  border: 2px solid #4056a1;
+  border-radius: 6px;
+  padding: 0.4em 1em;
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.compose-button:hover {
+  background-color: #e9f0ff;
+}
