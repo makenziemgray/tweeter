@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Tweeter - Home Page</title>
 
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Normalize and Fonts -->
@@ -19,10 +19,10 @@
     <link rel="stylesheet" href="/styles/nav.css">
     <link rel="stylesheet" href="/styles/header.css">
     <link rel="stylesheet" href="/styles/new-tweet.css">
-    <link rel="stylesheet" href="/styles/tweet.css"> 
+    <link rel="stylesheet" href="/styles/tweet.css">
 
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- jQuery and Timeago -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
 
     <!-- JS Scripts -->
@@ -31,7 +31,7 @@
   </head>
 
   <body>
-    <!-- Top nav bar (fixed) -->
+    <!-- Top Navigation Bar -->
     <nav>
       <span>TWEETER</span>
       <div class="new-tweet-button">
@@ -40,26 +40,36 @@
       </div>
     </nav>
 
-  <header>
-    <img src="/images/profile-hex.png" alt="avatar">
-    <h2>BLɅƆKPIИK</h2>
-  </header>
+    <!-- Header Avatar -->
+    <header>
+      <img src="/images/profile-hex.png" alt="avatar">
+      <h2>BLɅƆKPIИK</h2>
+    </header>
 
-    <!-- Page-specific (main) content here -->
-  <main class="container">
-    <section class="new-tweet">
-  <h2>Compose Tweet</h2>
-    <form id="submit-tweet" action="/tweets" method="POST">
-      <label for="tweet-text">What are you humming about?</label>
-      <textarea name="text" id="tweet-text"></textarea>
-      <div>
-        <button type="submit">Tweet</button>
-        <output name="counter" class="counter" for="tweet-text">140</output>
-      </div>
-    </form>
-</section>
-<section class="tweet-container" id="tweets-container"></section>
-  </main>
+    <!-- Main Content -->
+    <main class="container">
+      
+      <!-- Compose New Tweet Section -->
+      <section class="new-tweet">
+        <h2>Compose Tweet</h2>
+        <form id="submit-tweet" action="/tweets" method="POST">
+
+          <!-- ✅ Error message box -->
+          <div class="error-message" style="display: none;"></div>
+
+          <label for="tweet-text">What are you humming about?</label>
+          <textarea name="text" id="tweet-text" placeholder="Write your tweet here..." maxlength="140"></textarea>
+
+          <div class="tweet-form-footer">
+            <button type="submit">Tweet</button>
+            <output class="counter" for="tweet-text">140</output>
+          </div>
+        </form>
+      </section>
+
+      <!-- Tweets will be rendered here -->
+      <section class="tweet-container" id="tweets-container"></section>
+
+    </main>
   </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </html>

@@ -80,3 +80,16 @@
   text-align: center;
   display: none;
 }
+
+/* Error message box inside new-tweet */
+.error-message {
+  background-color: #ffdddd;
+  color: #b30000;
+  border: 1px solid #b30000;
+  padding: 0.75em;
+  border-radius: 6px;
+  margin-bottom: 1em;
+  font-weight: bold;
+  text-align: center;
+  display: none;
+}

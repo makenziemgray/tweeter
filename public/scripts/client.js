@@ -6,22 +6,22 @@ $('.scroll').click(() => {
   $('#tweet-text').focus();
 });
 
-// Escape user input to prevent XSS
+// Escape function to prevent XSS
 const escape = function (str) {
   const div = document.createElement("div");
   div.appendChild(document.createTextNode(str));
   return div.innerHTML;
 };
 
-// Create tweet <article> DOM from tweet object
+// Build tweet <article> element
 const createTweetElement = function(tweet) {
   const $tweet = $(`
     <article class="tweet" style="display: none;">
       <header class="th-header">
         <div class="name-left">
           <img src="${tweet.user.avatars}" alt="User Avatar">
-          <h3>${tweet.user.name}</h3>
-          <span class="handle">${tweet.user.handle}</span>
+          <h3>${escape(tweet.user.name)}</h3>
+          <span class="handle">${escape(tweet.user.handle)}</span>
         </div>
       </header>
       <div class="display-tweet">
@@ -40,7 +40,7 @@ const createTweetElement = function(tweet) {
   return $tweet;
 };
 
-// Render multiple tweets
+// Render all tweets
 const renderTweets = function(tweets) {
   const $container = $('#tweets-container');
   $container.empty();
@@ -56,28 +56,25 @@ const loadTweets = () => {
     url: '/api/tweets',
     method: 'GET',
     dataType: 'json',
-    success: (tweets) => renderTweets(tweets),
-    error: () => showError("Failed to fetch tweets.")
+    success: renderTweets,
+    error: () => showError("Failed to fetch tweets. Please try again.")
   });
 };
 
 // Show animated error message
 const showError = (message) => {
-  const $existing = $('.error');
-  if ($existing.length) $existing.remove();
-
-  const $error = $("<div class='error'>")
-    .text(`⚠️ ${message}`)
-    .hide()
-    .prependTo('#submit-tweet')
-    .slideDown()
-    .delay(3000)
-    .fadeOut(500, function () {
-      $(this).remove();
-    });
+  const $box = $('.error-message');
+  $box.stop(true, true).hide(); // Reset animations
+  $box.text(`⚠️ ${message}`);
+  $box.slideDown();
 };
 
-// Reset character counter
+// Hide error
+const hideError = () => {
+  $('.error-message').slideUp();
+};
+
+// Reset char counter
 const resetCounter = () => {
   $('.counter').text(140).removeClass('warning');
 };
@@ -99,12 +96,12 @@ const isTweetValid = (text) => {
 
 // DOM Ready
 $(document).ready(function () {
-  // Load all tweets on first load
   loadTweets();
 
-  // Form submit handler
   $('#submit-tweet').on('submit', function (e) {
     e.preventDefault();
+
+    hideError(); // ✅ Hide old error first
 
     const tweetText = $('#tweet-text').val();
     if (!isTweetValid(tweetText)) return;
@@ -112,13 +109,9 @@ $(document).ready(function () {
     const serializedData = $(this).serialize();
 
     $.post('/api/tweets', serializedData)
-      .then(() => {
-        return $.get('/api/tweets'); // Fetch updated tweets after posting
-      })
-      .then((tweets) => {
-        const latestTweet = tweets[tweets.length - 1]; // Grab newest
-        const $newTweet = createTweetElement(latestTweet);
-        $('#tweets-container').prepend($newTweet.slideDown(300));
+      .then((newTweet) => {
+        const $tweet = createTweetElement(newTweet);
+        $('#tweets-container').prepend($tweet.slideDown(300));
         this.reset();
         resetCounter();
         $('html, body').animate({ scrollTop: 0 }, 300);
