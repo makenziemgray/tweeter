@@ -1,6 +1,6 @@
 "use strict";
 
-// Scroll to top and focus on tweet input
+// Scroll to top and focus tweet input
 $('.scroll').click(() => {
   $('html, body').animate({ scrollTop: 0 }, 500);
   $('#tweet-text').focus();
@@ -13,7 +13,7 @@ const escape = function (str) {
   return div.innerHTML;
 };
 
-// Create a tweet <article> element from a tweet object
+// Create tweet <article> DOM from tweet object
 const createTweetElement = function(tweet) {
   const $tweet = $(`
     <article class="tweet" style="display: none;">
@@ -40,29 +40,41 @@ const createTweetElement = function(tweet) {
   return $tweet;
 };
 
-// Render tweets into the container
+// Render multiple tweets
 const renderTweets = function(tweets) {
   const $container = $('#tweets-container');
-  $container.empty(); // Clear old tweets
+  $container.empty();
   for (const tweet of tweets) {
     const $tweetElement = createTweetElement(tweet);
-    $tweetElement.prependTo($container).slideDown(300); // Animate appearance
+    $tweetElement.prependTo($container).slideDown(300);
   }
 };
 
-// Load tweets from the server
+// Load tweets from server
 const loadTweets = () => {
   $.ajax({
     url: '/api/tweets',
     method: 'GET',
     dataType: 'json',
-    success: (tweets) => {
-      renderTweets(tweets);
-    },
-    error: (error) => {
-      console.error('Error fetching tweets:', error);
-    }
+    success: (tweets) => renderTweets(tweets),
+    error: () => showError("Failed to fetch tweets.")
   });
+};
+
+// Show animated error message
+const showError = (message) => {
+  const $existing = $('.error');
+  if ($existing.length) $existing.remove();
+
+  const $error = $("<div class='error'>")
+    .text(`⚠️ ${message}`)
+    .hide()
+    .prependTo('#submit-tweet')
+    .slideDown()
+    .delay(3000)
+    .fadeOut(500, function () {
+      $(this).remove();
+    });
 };
 
 // Reset character counter
@@ -70,40 +82,50 @@ const resetCounter = () => {
   $('.counter').text(140).removeClass('warning');
 };
 
+// Validate tweet input
+const isTweetValid = (text) => {
+  if (!text || !text.trim()) {
+    showError("Tweet content is required.");
+    return false;
+  }
+
+  if (text.length > 140) {
+    showError("Tweet exceeds 140 character limit.");
+    return false;
+  }
+
+  return true;
+};
+
 // DOM Ready
 $(document).ready(function () {
-  // Load tweets on initial page load
+  // Load all tweets on first load
   loadTweets();
 
-  // Handle new tweet submission
+  // Form submit handler
   $('#submit-tweet').on('submit', function (e) {
     e.preventDefault();
 
-    const tweetText = $('#tweet-text').val().trim();
-
-    // ✅ Validation using alert()
-    if (!tweetText) {
-      alert("Tweet content is required.");
-      return;
-    }
-
-    if (tweetText.length > 140) {
-      alert("Tweet exceeds 140 character limit.");
-      return;
-    }
+    const tweetText = $('#tweet-text').val();
+    if (!isTweetValid(tweetText)) return;
 
     const serializedData = $(this).serialize();
 
     $.post('/api/tweets', serializedData)
       .then(() => {
-        loadTweets();        // Reload tweets after submission
-        this.reset();        // Clear form
-        resetCounter();      // Reset character counter
-        $('html, body').animate({ scrollTop: 0 }, 300); // Scroll to top
+        return $.get('/api/tweets'); // Fetch updated tweets after posting
+      })
+      .then((tweets) => {
+        const latestTweet = tweets[tweets.length - 1]; // Grab newest
+        const $newTweet = createTweetElement(latestTweet);
+        $('#tweets-container').prepend($newTweet.slideDown(300));
+        this.reset();
+        resetCounter();
+        $('html, body').animate({ scrollTop: 0 }, 300);
       })
       .catch((err) => {
         console.error('Tweet submission failed:', err);
-        alert("Something went wrong while submitting your tweet.");
+        showError("Something went wrong while submitting your tweet.");
       });
   });
 });
