@@ -1,67 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Tweeter - Home Page</title>
 
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- Normalize and Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Normalize + Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
 
-    <!-- App Stylesheets -->
-    <link rel="stylesheet" href="/styles/layout.css">
-    <link rel="stylesheet" href="/styles/nav.css">
-    <link rel="stylesheet" href="/styles/header.css">
-    <link rel="stylesheet" href="/styles/new-tweet.css">
-    <link rel="stylesheet" href="/styles/tweet.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    <link rel="stylesheet" href="/styles/header.css" />
+    <link rel="stylesheet" href="/styles/new-tweet.css" />
+    <link rel="stylesheet" href="/styles/tweet.css" />
 
-    <!-- jQuery and Timeago -->
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
-
-    <!-- JS Scripts -->
     <script src="/scripts/composer-char-counter.js" defer></script>
     <script src="/scripts/client.js" defer></script>
   </head>
 
   <body>
-    <!-- Top nav -->
+    <!-- Nav -->
     <nav>
       <span>TWEETER</span>
-      <div class="nav-right">
-        <button class="compose-button">
-          <i class="fa-solid fa-angles-down"></i> Compose
-        </button>
+      <div class="new-tweet-button">
+        <p>WRITE A NEW TWEET</p>
+        <i class="fa-solid fa-angles-down arrow-icon"></i>
       </div>
     </nav>
 
     <!-- Header -->
     <header>
-      <img src="/images/profile-hex.png" alt="avatar">
+      <img src="/images/profile-hex.png" alt="avatar" />
       <h2>BLɅƆKPIИK</h2>
     </header>
 
-    <main class="container">
-      <section class="new-tweet" style="display: none;">
-        <h2>Compose Tweet</h2>
-        <form id="submit-tweet">
-          <div class="error-message" style="display: none;"></div>
-          <label for="tweet-text">What are you humming about?</label>
-          <textarea name="text" id="tweet-text" placeholder="Write your tweet here..." maxlength="140"></textarea>
-          <div class="tweet-form-footer">
-            <button type="submit">Tweet</button>
-            <output class="counter" for="tweet-text">140</output>
-          </div>
-        </form>
-      </section>
+    <!-- Main Content -->
+      <main class="container">
+        <section class="new-tweet hidden">
+          <h2>Compose Tweet</h2>
+          <form id="submit-tweet">
+            <div class="error-message" style="display: none;"></div>
+            <label for="tweet-text">What are you humming about?</label>
+            <textarea name="text" id="tweet-text" placeholder="Write your tweet here..." maxlength="140"></textarea>
+            <div class="tweet-form-footer">
+              <button type="submit">Tweet</button>
+              <output class="counter" for="tweet-text">140</output>
+            </div>
+          </form>
+        </section>
 
-      <section class="tweet-container" id="tweets-container"></section>
-    </main>
+        <section class="tweet-container" id="tweets-container"></section>
+
+        <!-- ✅ Scroll-to-top tweet button -->
+        <div class="scroll-top-button hidden">
+          <i class="fa-solid fa-angles-up"></i>
+        </div>
+      </main>
   </body>
 </html>

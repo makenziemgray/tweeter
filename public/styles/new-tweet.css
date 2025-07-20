@@ -64,3 +64,20 @@
 .counter.counter-red {
   color: red;
 }
+/* Utility class for toggling visibility */
+.hidden {
+  display: none !important;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: #ffdddd;
+  color: #b30000;
+  border: 1px solid #b30000;
+  padding: 0.75em;
+  border-radius: 6px;
+  margin-bottom: 1em;
+  font-weight: bold;
+  text-align: center;
+  display: none;
+}
