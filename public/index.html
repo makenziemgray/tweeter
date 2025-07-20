@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Meta Information -->
+    <meta charset="UTF-8">
     <title>Tweeter - Home Page</title>
 
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- External CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" type="text/css" />
+
+    <!-- Normalize and Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-    <!-- App CSS -->
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link rel="stylesheet" href="styles/nav.css">
-    <link rel="stylesheet" href="styles/header.css">
-    <link rel="stylesheet" href="styles/new-tweet.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
-    <!-- External JS -->
+    <!-- App Stylesheets -->
+    <link rel="stylesheet" href="/styles/layout.css">
+    <link rel="stylesheet" href="/styles/nav.css">
+    <link rel="stylesheet" href="/styles/header.css">
+    <link rel="stylesheet" href="/styles/new-tweet.css">
+    <link rel="stylesheet" href="/styles/tweet.css"> 
+
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
 
-    <!-- App JS -->
-    <script type="text/javascript" src="/scripts/client.js"></script>
+    <!-- JS Scripts -->
+    <script src="/scripts/composer-char-counter.js" defer></script>
+    <script src="/scripts/client.js" defer></script>
   </head>
 
   <body>
@@ -45,41 +49,17 @@
   <main class="container">
     <section class="new-tweet">
   <h2>Compose Tweet</h2>
-  <form action="/api/tweets" method="POST">
-    <label for="tweet-text">What are you humming about?</label>
-    <textarea name="text" id="tweet-text"></textarea>
-    <div>
-      <button type="submit">Tweet</button>
-      <output name="counter" class="counter" for="tweet-text">140</output>
-    </div>
-  </form>
+    <form id="submit-tweet" action="/tweets" method="POST">
+      <label for="tweet-text">What are you humming about?</label>
+      <textarea name="text" id="tweet-text"></textarea>
+      <div>
+        <button type="submit">Tweet</button>
+        <output name="counter" class="counter" for="tweet-text">140</output>
+      </div>
+    </form>
 </section>
-<section id="tweets-container"></section>
-<section class="tweet-container">
-    <!-- Fake tweet for layout -->
-    <article class="tweet">
-      <header>
-        <div class="tweet-user">
-          <img src="https://i.imgur.com/73hZDYK.png" alt="User Avatar" />
-          <span class="name">Isaac Newton</span>
-        </div>
-        <span class="handle">@SirIsaac</span>
-      </header>
-      <p class="tweet-text">If I have seen further it is by standing on the shoulders of giants.</p>
-      <footer>
-        <span class="timestamp">10 days ago</span>
-        <div class="tweet-icons">
-          <i class="fa-regular fa-flag"></i>
-          <i class="fa-regular fa-retweet"></i>
-          <i class="fa-regular fa-heart"></i>
-        </div>
-      </footer>
-    </article>
-    </section>
+<section class="tweet-container" id="tweets-container"></section>
   </main>
   </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/4.0.2/timeago.min.js"></script>
-    <script src="/scripts/composer-char-counter.js"></script>
-    <script src="/scripts/client.js"></script>
 </html>

@@ -1,76 +1,126 @@
-/*
- * Client-side JS logic goes here
- * jQuery is already loaded
- * Reminder: Use (and do all your DOM work in) jQuery's document ready function
- */
+"use strict";
 
+// Scroll to top and focus on tweet input when clicking the down arrow
+$('.scroll').click(() => {
+  $('html, body').animate({ scrollTop: 0 }, 500);
+  $('#tweet-text').focus();
+});
+
+// Escape function to sanitize user input (XSS protection)
+const escape = function (str) {
+  const div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
+
+// Builds and returns a tweet <article> element from a tweet object
+const createTweetElement = function(tweet) {
+  const $tweet = $(`
+    <article class="tweet">
+      <header class="th-header">
+        <div class="name-left">
+          <img src="${tweet.user.avatars}" alt="User Avatar">
+          <h3>${tweet.user.name}</h3>
+          <span class="handle">${tweet.user.handle}</span>
+        </div>
+      </header>
+      <div class="display-tweet">
+        <p>${escape(tweet.content.text)}</p>
+      </div>
+      <footer>
+        <p>${timeago.format(tweet.created_at)}</p>
+        <div class="icons">
+          <i class="far fa-flag" id="flag"></i>
+          <i class="fas fa-retweet" id="retweet"></i>
+          <i class="far fa-heart" id="heart"></i>
+        </div>
+      </footer>
+    </article>
+  `);
+  return $tweet;
+};
+
+// Renders an array of tweets in the #tweets-container
+const renderTweets = function(tweets) {
+  const $container = $('#tweets-container');
+  $container.empty(); // Clear existing tweets
+  for (const tweet of tweets) {
+    const $tweetElement = createTweetElement(tweet);
+    $container.prepend($tweetElement); // Prepend newest first
+  }
+};
+
+// Loads tweets via GET /api/tweets and renders them
+const loadTweets = () => {
+  $.ajax({
+    url: '/api/tweets', // ✅ Correct route for GET
+    method: 'GET',
+    dataType: 'json',
+    success: (tweets) => {
+      renderTweets(tweets);
+    },
+    error: (error) => {
+      console.error('Failed to load tweets:', error);
+    }
+  });
+};
+
+// Adds an error message to the top of the form
+const appendError = (message) => {
+  $('#submit-tweet').prepend(
+    $("<span class='error'>")
+      .text('⚠️ ' + message + ' ⚠️')
+      .slideDown()
+      .delay(3500)
+      .hide(500)
+  );
+};
+
+// Removes previous error message
+const removeError = () => {
+  $('.error').remove();
+};
+
+// Resets character counter back to 140
+const resetCounter = () => {
+  $('.counter').text(140);
+};
+
+// jQuery DOM Ready
 $(document).ready(function () {
-  const loadTweets = function () {
-    $.ajax({
-      url: "/api/tweets",
-      method: "GET",
-      dataType: "json",
-      success: function (tweets) {
-        renderTweets(tweets);
-      },
-      error: function (err) {
-        console.error("Failed to fetch tweets:", err);
-      }
-    });
-  };
+  // Load tweets on page load
+  loadTweets();
 
-  const renderTweets = function (tweets) {
-    const container = $('#tweets-container');
-    container.empty();
-    tweets.reverse().forEach(tweet => {
-      const $tweet = createTweetElement(tweet);
-      container.append($tweet);
-    });
-  };
+  // Form submission handler
+  $('#submit-tweet').on('submit', function (e) {
+    e.preventDefault();
 
-  const createTweetElement = function(tweetData) {
-    const $tweet = $(`
-      <article class="tweet">
-        <header>
-          <div class="tweet-user">
-            <img src="${tweetData.user.avatars}" alt="User avatar">
-            <span class="name">${tweetData.user.name}</span>
-          </div>
-          <span class="handle">${tweetData.user.handle}</span>
-        </header>
-        <p class="tweet-text">${$('<div>').text(tweetData.content.text).html()}</p>
-        <footer>
-          <span class="timestamp">${timeago.format(tweetData.created_at)}</span>
-          <div class="tweet-icons">
-            <i class="fa-solid fa-flag"></i>
-            <i class="fa-solid fa-retweet"></i>
-            <i class="fa-solid fa-heart"></i>
-          </div>
-        </footer>
-      </article>
-    `);
-    return $tweet;
-  };
+    const tweetText = $('#tweet-text').val();
+    const serializedData = $(this).serialize();
 
-  $('form').on('submit', function (event) {
-    event.preventDefault();
-    const $form = $(this);
-    const tweetText = $form.find('textarea').val().trim();
+    removeError();
 
-    if (!tweetText) {
-      return alert("Tweet cannot be empty.");
+    // Validate tweet content
+    if (!tweetText.trim()) {
+      appendError('You cannot post a blank tweet');
+      return;
     }
+
     if (tweetText.length > 140) {
-      return alert("Tweet exceeds 140 characters.");
+      appendError('Your tweet is too long!');
+      return;
     }
 
-    $.post("/api/tweets", $form.serialize())
-      .done(() => {
-        $form.find('textarea').val("");
-        $form.find('.counter').text(140);
-        loadTweets();
+    // ✅ POST to correct backend route
+    $.post('/api/tweets', serializedData)
+      .then(() => {
+        loadTweets();        // Reload tweets after posting
+        this.reset();        // Clear the form
+        resetCounter();      // Reset the char counter
+      })
+      .catch((err) => {
+        console.error('Tweet submission failed:', err);
+        appendError('Something went wrong. Try again.');
       });
   });
-
-  loadTweets();
 });

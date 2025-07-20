@@ -1,56 +1,89 @@
+/* Container for the tweet */
 .tweet {
-  border: 2px solid #545149;
-  border-radius: 8px;
-  margin: 20px 0;
-  padding: 1em;
-  background-color: #f4f1ec;
-  transition: box-shadow 0.3s ease-in-out;
-  box-shadow: 2px 2px 5px rgba(84, 81, 73, 0.1);
+  background-color: #fbc5d8; /* Light pink */
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: 'Source Sans 3', sans-serif;
+  word-wrap: break-word;
+  transition: transform 0.2s;
 }
 
 .tweet:hover {
-  box-shadow: 4px 4px 12px rgba(84, 81, 73, 0.3);
+  transform: translateY(-2px);
 }
 
-.tweet header {
+/* Tweet header: avatar, name, and handle */
+.th-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.tweet-user {
+.name-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
-.tweet-user img {
-  height: 40px;
+.name-left img {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
+  border: 2px solid #e91e63;
 }
 
-.tweet-text {
-  margin: 1em 0;
-  font-size: 1.2em;
-  word-wrap: break-word;
+.name-left h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
+.handle {
+  margin-left: auto;
+  color: #555;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Tweet content */
+.display-tweet {
+  margin: 0.5rem 0;
+  padding: 0.25rem 0;
+}
+
+.display-tweet p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Tweet footer: timestamp + icons */
 .tweet footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 2px solid #545149;
-  padding-top: 0.5em;
+  border-top: 1px solid #e0bfcf;
+  padding-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
 }
 
-.tweet-icons i {
-  margin-left: 10px;
-  color: #545149;
+.tweet footer .icons {
+  display: flex;
+  gap: 1rem;
+  font-size: 1rem;
+}
+
+.tweet footer i {
   cursor: pointer;
-  transition: color 0.2s ease;
+  color: #888;
+  transition: color 0.2s;
 }
 
-.tweet-icons i:hover {
-  color: #f79aaf;
+.tweet footer i:hover {
+  color: #e91e63; /* pink hover */
 }
