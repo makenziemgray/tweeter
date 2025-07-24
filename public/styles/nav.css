@@ -18,7 +18,7 @@ nav {
 /* Tweeter brand */
 nav span {
   font-family: 'Bungee', sans-serif;
-  font-size: 2em;
+  font-size: 1em;
 }
 
 /* Write a new tweet (nav) */
@@ -27,11 +27,12 @@ nav span {
   cursor: pointer;
   font-family: 'Bungee', sans-serif;
   color: #f79aaf;
-  font-size: 1em;
+  font-size: 0.75em;
   margin-left: auto;
   padding-right: 1em;
   text-transform: uppercase;
   line-height: 1;
+  position: fixed;top: 40px;
 }
 
 .new-tweet-button p {
@@ -72,4 +73,14 @@ nav span {
 /* Utility class */
 .hidden {
   display: none !important;
+}
+
+@media screen and (min-width: 900px) {
+  nav span {
+  font-size: 2em;
+}
+.new-tweet-button {
+  font-size: 1em;
+  position: fixed;top: 32px;
+}
 }

@@ -1,39 +1,87 @@
 .tweet {
+  display: flex;
+  flex-direction: column;
   background-color: #fbc5d8;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   word-wrap: break-word;
   font-family: 'Source Sans 3', sans-serif;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tweet header {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  margin-bottom: 8px;
+  width: 100%; 
+  height: 120%;
+
+}
+
+.tweet-user-info {
+ display: flex;
+  align-items: center;
+  gap: 10px;            
+}
+
+.tweet-user-info img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tweet-text {
+  margin: 1em 0;
 }
 
 .th-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: 24px;
+  padding-right: 24px;
+  border-radius: 8px;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 0.95rem;
+  line-height: 1.1;
+  color: #333;
 }
 
 .name-left {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 0.5rem;
+
 }
 
 .name-left img {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
+  margin-bottom: 0px;
 }
 
 .handle {
   margin-left: auto;
   font-weight: bold;
-  color: #555;
+  font-size: 0.9em;
+  color: #666;
 }
 
 .display-tweet {
   margin: 0.5rem 0;
+  font-size: 1.05rem;
+  color: #333;
 }
 
 .tweet footer {
@@ -45,7 +93,6 @@
   border-top: 1px solid #e0bfcf;
   padding-top: 0.5rem;
 }
-
 .icons i {
   margin-left: 10px;
   cursor: pointer;
@@ -56,40 +103,3 @@
   color: #e91e63;
 }
 
-@media screen and (max-width: 600px) {
-  .tweet {
-    padding: 0.75rem;
-  }
-
-  .name-left img {
-    width: 32px;
-    height: 32px;
-  }
-
-  .display-tweet p {
-    font-size: 1rem;
-  }
-}
-
-.error {
-  color: white;
-  background-color: #e53935;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 6px;
-  text-align: center;
-  display: none;
-}
-
-/* Error message box inside new-tweet */
-.error-message {
-  background-color: #ffdddd;
-  color: #b30000;
-  border: 1px solid #b30000;
-  padding: 0.75em;
-  border-radius: 6px;
-  margin-bottom: 1em;
-  font-weight: bold;
-  text-align: center;
-  display: none;
-}

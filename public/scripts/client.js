@@ -1,5 +1,11 @@
 "use strict";
 
+const inlineAlert = (message) => {
+  const $box = $('#inline-alert-box');
+  $box.text(message).removeClass('hidden');
+  setTimeout(() => $box.addClass('hidden'), 3000);
+};
+
 // Safely escape tweet text to prevent XSS
 const escape = function (str) {
   const div = document.createElement("div");
@@ -24,9 +30,9 @@ const createTweetElement = function (tweet) {
       <footer>
         <p>${timeago.format(tweet.created_at)}</p>
         <div class="icons">
-          <i class="far fa-flag"></i>
-          <i class="fas fa-retweet"></i>
-          <i class="far fa-heart"></i>
+          <i class="far fa-flag icon-flag" data-action="flag"></i>
+          <i class="fas fa-retweet icon-retweet" data-action="retweet"></i>
+          <i class="far fa-heart icon-like" data-action="like"></i>
         </div>
       </footer>
     </article>
@@ -36,7 +42,7 @@ const createTweetElement = function (tweet) {
 // Loop through tweets and add them to DOM
 const renderTweets = function (tweets) {
   const $container = $('#tweets-container');
-  $container.empty(); // Clear existing tweets
+  $container.empty(); // ensure we don’t double render
   for (const tweet of tweets) {
     const $tweet = createTweetElement(tweet);
     $tweet.prependTo($container).slideDown(300);
@@ -49,7 +55,9 @@ const loadTweets = () => {
     url: '/api/tweets',
     method: 'GET',
     dataType: 'json',
-    success: renderTweets,
+    success: (fetchedTweets) => {
+      renderTweets(fetchedTweets);
+    },
     error: () => showError("Failed to fetch tweets.")
   });
 };
@@ -63,15 +71,12 @@ const showError = (message) => {
     .slideDown();
 };
 
-// Hide any visible error
 const hideError = () => $('.error-message').slideUp();
 
-// Reset tweet character counter
 const resetCounter = () => {
   $('.counter').text(140).removeClass('warning');
 };
 
-// Validate tweet content
 const isTweetValid = (text) => {
   if (!text || !text.trim()) {
     showError("Tweet content is required.");
@@ -84,7 +89,7 @@ const isTweetValid = (text) => {
   return true;
 };
 
-// Handle tweet form toggle from nav
+// Handle tweet form toggle
 const handleNavToggleClick = () => {
   const $form = $('.new-tweet');
   if ($form.is(':visible')) {
@@ -96,7 +101,7 @@ const handleNavToggleClick = () => {
   }
 };
 
-// Handle tweet form submission
+// Handle new tweet submission
 const handleTweetSubmit = function (e) {
   e.preventDefault();
   hideError();
@@ -118,18 +123,14 @@ const handleTweetSubmit = function (e) {
     });
 };
 
-// Toggle button visibility based on scroll position
 const handleScroll = () => {
   if ($(window).scrollTop() > 150) {
     $('.scroll-top-button').removeClass('hidden');
-    $('.new-tweet-button').addClass('hidden');
   } else {
     $('.scroll-top-button').addClass('hidden');
-    $('.new-tweet-button').removeClass('hidden');
   }
 };
 
-// Handle scroll-top button click
 const handleScrollTopClick = () => {
   $('html, body').animate({ scrollTop: 0 }, 300, () => {
     const $form = $('.new-tweet');
@@ -142,14 +143,19 @@ const handleScrollTopClick = () => {
     }
   });
 };
-
 // DOM Ready
 $(document).ready(function () {
+
+  // Then load backend tweets
   loadTweets();
 
-  // Event Listeners
   $('.new-tweet-button').on('click', handleNavToggleClick);
   $('#submit-tweet').on('submit', handleTweetSubmit);
   $(window).on('scroll', handleScroll);
   $('.scroll-top-button').on('click', handleScrollTopClick);
+
+  // Tweet icon actions
+  $(document).on('click', '.icon-like', () => alert('❤️ You liked the tweet!'));
+  $(document).on('click', '.icon-retweet', () => alert('🔁 You reposted the tweet!'));
+  $(document).on('click', '.icon-flag', () => alert('🚩 You reported the tweet.'));
 });

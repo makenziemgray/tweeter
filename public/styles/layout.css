@@ -33,48 +33,176 @@ body {
   background-color: inherit;   
 }
 
-/* === DESKTOP BREAKPOINT === */
-@media screen and (min-width: 1024px) {
-  .container {
-    max-width: 1100px;
-    margin: 140px auto 60px auto;
+/* Default (mobile-first) styles here */
+
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  width: 100%;
+  position: static;
+  min-height: auto;
+  height: auto;
+}
+
+.new-tweet-button {
+  position: fixed; !important;
+  top: 20px; !important;
+  right: 20px; !important;
+  background-color: black;
+  border-radius: 8px;
+  font-family: 'Bungee', sans-serif;
+  color: #f79aaf;
+  cursor: pointer;
+  flex-direction: column;
+  padding: 0.2em 0.5em;
+  line-height: 1.2;
+  word-break: break-word;
+  text-align: center;
+  font-size: 0.55em;
+}
+
+.new-tweet-button i {
+  display: block;
+  font-size: 0.65em;
+  margin: 0;
+}
+
+ .new-tweet-button .arrow-icon {
+  font-size: 0.6em;
+  margin-top: 2px;
+  }
+
+  .main-content{
+    padding-top: 24px;
+    gap: 2rem;
+  }
+
+
+@media screen and (min-width: 768px) {
+  .main.container {
     display: flex;
-    flex-direction: row;
-    gap: 30px;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
   }
 
-  /* Show header/profile left side */
-  header {
-    width: 30%;
+  .header {
+    width: 35%;
+    position: sticky;
+    left: 120px; /* below nav */
     height: fit-content;
-    align-self: flex-start;
-    margin: 0;
   }
 
-  /* Move tweet form + tweets to right side */
-  .new-tweet,
-  .tweet-container {
-    width: 70%;
+
+  .new-tweet, .tweet-container {
+    width: 65%;
   }
 
-  .new-tweet {
-    margin-top: 0;
-  }
 
   .tweet-container {
-    margin-top: 20px;
-  }
-
-  /* Nav bar stays at top full width */
-  nav {
     width: 100%;
+
   }
 
-  /* Scroll button still bottom right */
-  .scroll-top-button {
-    bottom: 60px;
-    right: 60px;
+  .tweet {
+    width: 100%;
+    margin: 0px;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #fbc5d8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
   }
 }
 
+@media screen and (min-width: 900px) {
+  .layout-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 1400px;
+    margin: 0; 
+  }
 
+    .new-tweet-button {
+    right: 10px;
+    top: 15px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    position: sticky;
+    height: 5%;
+  }
+
+  .sidebar {
+    width: 30%;
+    min-height: 100vh;
+    position: fixed;
+    top: 120px;
+    left: 0; 
+    background-color: #f79aaf;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url("http://www.transparenttextures.com/patterns/wave-grid.png");
+    background-repeat: repeat;
+    padding: 2em 0;
+    border-radius: 0;
+  }
+
+  .sidebar header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .main-content {
+    width: 70%;
+    padding: 4em;
+    padding-top: 1em;
+    position: absolute;
+    right: 0;
+  }
+
+
+  .new-tweet {
+    position: sticky;
+    top: 130px;
+    z-index: 5;
+    background-color: #f4f1ec;
+    padding: 1em;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .tweet-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;        
+    padding: 0;         
+    margin-top: 0;
+  }
+
+  .tweet {
+    width: 100%;
+    margin: 0px;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #fbc5d8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
+  }
+
+  .tweet-text {
+  margin: 0.5rem 0; 
+}
+
+}

@@ -9,8 +9,6 @@
 
     <!-- Normalize + Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
 
@@ -32,21 +30,25 @@
     <!-- Nav -->
     <nav>
       <span>TWEETER</span>
-      <div class="new-tweet-button">
+      <div class="new-tweet-button" style="position: fixed;">
         <p>WRITE A NEW TWEET</p>
         <i class="fa-solid fa-angles-down arrow-icon"></i>
       </div>
     </nav>
 
-    <!-- Header -->
-    <header>
-      <img src="/images/profile-hex.png" alt="avatar" />
-      <h2>BLɅƆKPIИK</h2>
-    </header>
+    <!-- Layout Wrapper -->
+    <div class="layout-wrapper">
+      <!-- Sidebar Left -->
+      <aside class="sidebar">
+        <header>
+          <img src="/images/blackpink@2000x1270.jpg" alt="avatar" />
+          <h2>BLɅƆKPIИK</h2>
+        </header>
+      </aside>
 
-    <!-- Main Content -->
-      <main class="container">
-        <section class="new-tweet hidden">
+      <!-- Main Right -->
+      <main class="main-content">
+        <section class="new-tweet">
           <h2>Compose Tweet</h2>
           <form id="submit-tweet">
             <div class="error-message" style="display: none;"></div>
@@ -61,10 +63,10 @@
 
         <section class="tweet-container" id="tweets-container"></section>
 
-        <!-- ✅ Scroll-to-top tweet button -->
         <div class="scroll-top-button hidden">
           <i class="fa-solid fa-angles-up"></i>
         </div>
       </main>
+    </div>
   </body>
 </html>

@@ -11,7 +11,7 @@
 .new-tweet h2 {
   font-family: 'Bungee', sans-serif;
   font-size: 1.6em;
-  margin-bottom: 1em;
+  margin: 0px 0px 16px;
 }
 
 .new-tweet form {
@@ -50,6 +50,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  
 }
 
 .new-tweet button:hover {

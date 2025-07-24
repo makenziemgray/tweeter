@@ -1,0 +1,19 @@
+// Colors
+$black: #000;
+$white: #fff;
+$pink: #f79aaf;
+$pink-hover: #ffb8c7;
+$error-red: #b30000;
+$error-bg: #ffdddd;
+
+// Fonts
+$brand-font: 'Bungee', sans-serif;
+$main-font: 'Source Sans 3', sans-serif;
+
+// File: sass/_mixins.scss
+
+@mixin center-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
