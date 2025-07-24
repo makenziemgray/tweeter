@@ -9,7 +9,9 @@ This is all featured in mobile views to exampand user expereince.
 ## Preview
 
 <img width="498" height="1073" alt="Screenshot 2025-07-24 at 5 46 55 PM" src="https://github.com/user-attachments/assets/a8f898e7-e225-43d2-8e83-db9e7f3ffb2b" />
+
 <img width="617" height="1073" alt="Screenshot 2025-07-24 at 5 46 22 PM" src="https://github.com/user-attachments/assets/f86b9ff8-637a-4f59-ab36-83f29bc61f3a" />
+
 <img width="4064" height="2334" alt="Screenshot 2025-07-24 at 5 45 55 PM" src="https://github.com/user-attachments/assets/50d46f73-0555-4892-aa8f-2b7d03ae4dc2" />
 
 
