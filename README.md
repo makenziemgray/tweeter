@@ -4,6 +4,8 @@ Tweeter is a simple, single-page Twitter clone built with HTML, CSS, JS, jQuery,
 
 This customized version features BLACKPINK as the seeded users, making it both functional and fun to style and test!
 
+This is all featured in mobile views to exampand user expereince.
+
 ## Preview
 
 <img width="498" height="1073" alt="Screenshot 2025-07-24 at 5 46 55 PM" src="https://github.com/user-attachments/assets/a8f898e7-e225-43d2-8e83-db9e7f3ffb2b" />
